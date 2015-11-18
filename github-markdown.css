@@ -10,7 +10,7 @@ html {
 }
 
 body {
-    min-width: 1020px;
+    min-width: 700px;
     font: 13px/1.4 Helvetica, arial, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
     /* color: #333; */
     background-color: #fff;
@@ -31,7 +31,7 @@ td,th {
 }
 
 .container {
-    width: 980px;
+    width: 100%;
     margin-right: auto;
     margin-left: auto
 }
@@ -121,11 +121,11 @@ td,th {
 
 .repository-with-sidebar .repository-content {
     /* float: left; */
-    width: 920px;
+    width: 100%;
 }
 
 .repository-with-sidebar.with-full-navigation .repository-content {
-    width: 790px;
+    width: 100%;
 }
 
 .repository-with-sidebar.with-full-navigation .repository-sidebar {

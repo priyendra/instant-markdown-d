@@ -16,12 +16,27 @@
   </style>
   <script src="/socket.io/socket.io.js"></script>
   <script>
+    function isElementInViewport (el) {
+      var rect = el.getBoundingClientRect();
+      return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+      );
+    }
     var socket = io.connect('http://localhost:8090/');
     socket.on('connect', function () {
       socket.on('newContent', function(newHTML) {
         document.querySelector(".markdown-body").innerHTML = newHTML;
+        var cursor = document.getElementById("cursor");
+        if (!isElementInViewport(cursor)) {
+          cursor.scrollIntoView();
+        }
+        cursor.style.display = "none";
       });
-      socket.on('die', function(newHTML) {
+      socket.on('die', function(newHTML, done) {
+        done(); 
         window.open('', '_self', '');
         window.close();
 

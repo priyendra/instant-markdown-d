@@ -10,6 +10,23 @@ var server = require('http').createServer(httpHandler),
     server,
     socket;
 
+server.on('listening', function(e) {
+  // start browser only when the server has started listening
+  if (process.platform.toLowerCase().indexOf('darwin') >= 0){
+    exec('open -g http://localhost:8090', function(error, stdout, stderr){});
+  }
+  else {  // assume unix/linux
+    exec('xdg-open http://localhost:8090', function(error, stdout, stderr){});
+  }
+})
+server.on('error', function (e) {
+  if (e.code == 'EADDRINUSE') {
+    setTimeout(function () {
+      server.close();
+      server.listen(8090);
+    }, 1000);
+  }
+});
 server.listen(8090);
 
 var md = new MarkdownIt({
@@ -70,8 +87,9 @@ function httpHandler(req, res) {
       // break;
 
     case 'DELETE':
-      socket.emit('die');
-      process.exit();
+      socket.emit('die', '', function () {
+        process.exit();
+      });
       break;
 
     case 'PUT':
@@ -91,11 +109,3 @@ io.sockets.on('connection', function(sock){
   writeMarkdown(process.stdin, socket);
   process.stdin.resume();
 });
-
-
-if (process.platform.toLowerCase().indexOf('darwin') >= 0){
-  exec('open -g http://localhost:8090', function(error, stdout, stderr){});
-}
-else {  // assume unix/linux
-  exec('xdg-open http://localhost:8090', function(error, stdout, stderr){});
-}
