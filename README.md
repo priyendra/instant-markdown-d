@@ -4,7 +4,7 @@ instant-markdown-d is a small Node.js server that enables instant compilation an
 
 Installation
 ------------
-- `[sudo] npm -g install instant-markdown-d`
+- `[sudo] npm -g install git+https://github.com/priyendra/instant-markdown-d.git`
 
 REST API
 --------
